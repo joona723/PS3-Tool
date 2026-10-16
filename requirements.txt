@@ -1,0 +1,4 @@
+pygame>=2.5
+vgamepad>=0.1.0
+pystray>=0.19
+Pillow>=9.0
