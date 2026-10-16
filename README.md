@@ -86,8 +86,9 @@ type, so if you made one over USB, map once more over Bluetooth. In SXS mode you
 | 4. Map controller buttons | Records a custom layout |
 | 5. Reset mapping | Deletes a custom layout |
 | 6. Run in the system tray | Same as Start, but in the background with a tray icon (see above) |
+| 7. Bluetooth check | Wireless not connecting? Plug the controller in by USB and run this; it says what's wrong |
 
-Command line, for advanced users: `python -m padbridge [setup|doctor|list|run|test|tray|map]`.
+Command line, for advanced users: `python -m padbridge [setup|doctor|bt|list|run|test|tray|map]`.
 For example, `python -m padbridge run --deadzone 0.12` adds extra stick deadzone for a drifting stick.
 
 ## How it's built (for adding features later)

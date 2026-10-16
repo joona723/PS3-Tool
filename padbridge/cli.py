@@ -15,7 +15,8 @@ MENU = """
   4. Map controller buttons (for unknown controllers)
   5. Reset a controller's mapping
   6. Run in the system tray (background, waits for USB or Bluetooth)
-  7. Quit
+  7. Bluetooth check (wireless not connecting?)
+  8. Quit
 """
 
 
@@ -42,12 +43,13 @@ def _start_tray():
 def menu():
     from .bridge import run_bridge, run_test
     from .doctor import run_doctor
+    from .btcheck import run_bt_check
     from .installer import run_setup
-    actions = {"0": run_setup, "1": run_doctor, "2": run_bridge, "3": run_test, "4": _map, "5": _reset_mapping}
+    actions = {"7": run_bt_check, "0": run_setup, "1": run_doctor, "2": run_bridge, "3": run_test, "4": _map, "5": _reset_mapping}
     while True:
         print(MENU)
-        choice = input("Choose 0-7: ").strip()
-        if choice in ("7", "q", ""):
+        choice = input("Choose 0-8: ").strip()
+        if choice in ("8", "q", ""):
             return
         if choice == "6":
             _start_tray()
@@ -70,6 +72,7 @@ def main(argv=None):
     sub = p.add_subparsers(dest="cmd")
     sub.add_parser("setup", help="install drivers and set everything up (new PC)")
     sub.add_parser("doctor", help="check drivers and controllers")
+    sub.add_parser("bt", help="find out why Bluetooth won't connect")
     sub.add_parser("list", help="list controllers")
     run = sub.add_parser("run", help="start the bridge")
     run.add_argument("-c", "--controller", type=int, help="controller number from 'list'")
@@ -89,6 +92,9 @@ def main(argv=None):
         elif args.cmd == "setup":
             from .installer import run_setup
             run_setup()
+        elif args.cmd == "bt":
+            from .btcheck import run_bt_check
+            return 0 if run_bt_check() else 1
         elif args.cmd == "doctor":
             from .doctor import run_doctor
             return 0 if run_doctor() else 1
